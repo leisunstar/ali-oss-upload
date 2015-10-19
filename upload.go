@@ -21,6 +21,14 @@ func sign(msg, secret string) string {
 	return base64.StdEncoding.EncodeToString(mac.Sum(nil))
 }
 
+//accessKey:阿里云key
+//secret:阿里云秘钥
+//baseUrl:http://oss-cn-beijing.aliyuncs.com
+//bucket:bucket
+//objectName:test.html
+//dir:test
+//mType:text/html
+//fileBuffer:io.Reader
 func AliUploadWithMtype(accessKey, secret, baseUrl, bucket, objectName, dir, mType string, fileBuffer io.Reader) (err error) {
 	client := &http.Client{}
 	var canonicalizedResource, canonicalizedOSSHeaders, verb string
@@ -44,7 +52,6 @@ func AliUploadWithMtype(accessKey, secret, baseUrl, bucket, objectName, dir, mTy
 	if err != nil {
 		return err
 	}
-
 	if resp.StatusCode != http.StatusOK && resp.StatusCode >= 300 {
 		return fmt.Errorf("status err %d", resp.StatusCode)
 	}
